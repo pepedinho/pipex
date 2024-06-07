@@ -6,17 +6,18 @@
 /*   By: itahri <ithari@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 17:29:12 by itahri            #+#    #+#             */
-/*   Updated: 2024/06/07 21:25:38 by itahri           ###   ########.fr       */
+/*   Updated: 2024/06/07 22:43:01 by itahri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/pipex.h"
+#include <unistd.h>
 
 int main(int argc, const char *argv[], char **envp)
 {
 	int		  i;
 	int		  j;
-	char	  **path_tab;
+	char	  *path;
 	t_queue	  *queue;
 	t_element *current;
 	char	  *content;
@@ -47,14 +48,18 @@ int main(int argc, const char *argv[], char **envp)
 		return (free_queue(queue), EXIT_FAILURE);
 	ft_printf("%s", content);
 	free(content);
+	path = get_command_path(envp, queue->first->command);
+	if (path)
+	{
+		ft_printf("path find : %s\n", path);
+		free(path);
+	}
+	else
+		ft_printf("aucun path find");
 	free_queue(queue);
-	path_tab = get_env_path(envp);	
+
 	//i = 0;
 	//while (path_tab[i])
 	//	ft_printf("[%s]\n", path_tab[i++]);
-	i = 0;
-	while (path_tab[i])
-		free(path_tab[i++]);
-	free(path_tab);
 	return (0);
 }

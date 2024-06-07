@@ -49,4 +49,7 @@ t_queue	*args_manag(const char **argv, int argc);
 int	file_content_len(char *filename);
 char *infile_content(char *filename);
 
+//exec_management
+char  *get_command_path(char **envp, char **command);
+
 #endif
