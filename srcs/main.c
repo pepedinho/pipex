@@ -15,7 +15,6 @@
 int main(int argc, const char *argv[], char **envp)
 {
 	t_queue	  *queue;
-	t_element *current;
 	pid_t	  pid;
 	int		  fd[2];
 
@@ -27,13 +26,11 @@ int main(int argc, const char *argv[], char **envp)
 	if (pid == 0) //child
 	{
 		//ft_printf("child debug \n");
-		if (current->input)
 			infile_command(envp, queue->first, fd);
 	}
 	else //parent
 	{
 		//ft_printf("debug parent\n");
-		if (current->input)
 			outfile_command(envp, queue->first->next, fd);
 	}
 	kill(pid, SIGKILL);
