@@ -6,12 +6,51 @@
 /*   By: itahri <ithari@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 21:32:01 by itahri            #+#    #+#             */
-/*   Updated: 2024/06/07 23:20:35 by itahri           ###   ########.fr       */
+/*   Updated: 2024/06/07 23:19:15 by itahri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/pipex.h"
 #include <unistd.h>
+
+void  free_tab(char **tab, int cas)
+{
+	int	i;
+	if (cas == 2)
+	{
+		if (tab)
+			free(tab);
+		return ;
+	}
+	i = 0;
+	while (tab[i])
+		free(tab[i++]);
+	free(tab);
+}
+
+char  *cut_n(const char *command, char sep)
+{
+	int	  i;
+	int	  j;
+	char  *result;
+
+	if (!command)
+		return (NULL);
+	i = 0;
+	while (command[i] != sep)
+		i++;
+	result = malloc(sizeof(char) * (i + 1));
+	if (!result)
+		return(NULL);
+	j = 0;
+	while (j < i)
+	{
+		result[j] = command[j];
+		j++;
+	}
+	result[j] = '\0';
+	return (result);
+}
 
 static char  *extend(char *path, char *command)
 {
@@ -53,43 +92,34 @@ static char  *extend(char *path, char *command)
 static char	**path_formater(char **path_tab, char *command)
 {
 	int	  i;
-	int	  j;
 	char  **path_tab_formated;
+	char  *command_name;
 
 	i = 0;
 	while (path_tab[i])
 		i++;
 	path_tab_formated = malloc(sizeof(char *) * (i + 1));
-	if (!path_tab_formated)
-		return (NULL);
+	command_name = cut_n(command, ' ');
+	if (!path_tab_formated | !command_name)
+		return (free_tab(path_tab_formated, 2), NULL);
 	i = 0;
 	while (path_tab[i])
 	{
-		path_tab_formated[i] = extend(path_tab[i], command);
+		path_tab_formated[i] = extend(path_tab[i], command_name);
 		if (!path_tab_formated[i])
 		{
-			j = 0;
-			while (j <= i)
-				free(path_tab_formated[j++]);
-			return (free(path_tab_formated), NULL);
+			while (i >= 0)
+				free(path_tab_formated[i--]);
+			return (free(command_name), free(path_tab_formated), NULL);
 		}
 		i++;
 	}
 	path_tab_formated[i] = NULL;
-	return (path_tab_formated);
+	return (free(command_name), path_tab_formated);
 }
 
-void  free_tab(char **tab)
-{
-	int	i;
 
-	i = 0;
-	while (tab[i])
-		free(tab[i++]);
-	free(tab);
-}
-
-char  *get_command_path(char **envp, char **command)
+char  *get_command_path(char **envp, char *command)
 {
 	char  **path_tab;
 	char  **path_tab_formated;
@@ -100,26 +130,19 @@ char  *get_command_path(char **envp, char **command)
 	path_tab = get_env_path(envp);
 	if (!path_tab)
 		return (NULL);
-	path_tab_formated = path_formater(path_tab, command[0]);
+	path_tab_formated = path_formater(path_tab, command);
 	if (!path_tab_formated)
-		return (free_tab(path_tab), NULL);
-	//debug
-	while (path_tab_formated[i])
-	{
-		ft_printf("debug pathe %d : %s\n", i, path_tab_formated[i]);
-		i++;
-	}
-	i = 0;
+		return (free_tab(path_tab, 1), NULL);
 	while (path_tab_formated[i])
 	{
 		if (access(path_tab_formated[i], F_OK) == 0)
 		{
 			result = ft_strdup(path_tab_formated[i]);
 			if (!result)
-				return (free_tab(path_tab_formated), NULL);
-			return (free_tab(path_tab_formated), free_tab(path_tab), result);
+				return (free_tab(path_tab_formated, 1), NULL);
+			return (free_tab(path_tab_formated, 1), free_tab(path_tab, 1), result);
 		}
 		i++;
 	}
-	return (free_tab(path_tab_formated), free_tab(path_tab), NULL);
+	return (free_tab(path_tab_formated, 1), free_tab(path_tab, 1), NULL);
 }

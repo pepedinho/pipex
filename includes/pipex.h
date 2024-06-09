@@ -6,7 +6,7 @@
 /*   By: itahri <ithari@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 17:29:47 by itahri            #+#    #+#             */
-/*   Updated: 2024/06/07 18:28:39 by itahri           ###   ########.fr       */
+/*   Updated: 2024/06/09 14:32:12 by itahri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ typedef struct s_element
 {
 	char	  *input;
 	char	  **command;
+	int		  fd;	
 	struct s_element *next;
 }			  t_element;
 
@@ -50,6 +51,10 @@ int	file_content_len(char *filename);
 char *infile_content(char *filename);
 
 //exec_management
-char  *get_command_path(char **envp, char **command);
+char  *get_command_path(char **envp, char *command);
+
+//execution_funcs
+int	infile_command(char **envp, t_element *elem, int *fd);
+int outfile_command(char **envp, t_element *elem, int *fd);
 
 #endif

@@ -12,7 +12,7 @@
 
 CC = cc
 
-SRCS = $(addprefix srcs/,  main.c args_env_management.c queue_funcs.c file_management.c exec_management.c)
+SRCS = $(addprefix srcs/,  main.c args_env_management.c queue_funcs.c file_management.c exec_management.c execution_funcs.c)
 
 INCLUDES = ./includes -I ./libft/includes/
 

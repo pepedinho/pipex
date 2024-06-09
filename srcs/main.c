@@ -11,12 +11,40 @@
 /* ************************************************************************** */
 
 #include "../includes/pipex.h"
-#include <unistd.h>
 
 int main(int argc, const char *argv[], char **envp)
 {
-	int		  i;
+	t_queue	  *queue;
+	t_element *current;
+	pid_t	  pid;
+	int		  fd[2];
+
+	queue = args_manag(argv, argc);
+	if (!queue)
+		return (-1);
+	pipe(fd);
+	pid = fork();
+	if (pid == 0) //child
+	{
+		//ft_printf("child debug \n");
+		if (current->input)
+			infile_command(envp, queue->first, fd);
+	}
+	else //parent
+	{
+		//ft_printf("debug parent\n");
+		if (current->input)
+			outfile_command(envp, queue->first->next, fd);
+	}
+	kill(pid, SIGKILL);
+	return (0);
+}
+
+/*
+int main(int argc, const char *argv[], char **envp)
+{
 	int		  j;
+	int		  i;
 	char	  *path;
 	t_queue	  *queue;
 	t_element *current;
@@ -28,12 +56,13 @@ int main(int argc, const char *argv[], char **envp)
 	while (current)
 	{
 		i = 0;
-		while(current->command[i])
+		while (current->command[i])
 		{
 			if (i == 0)
-				ft_printf("command : %s\n", current->command[i++]);
+				ft_printf("command : %s\n", current->command[i]);
 			else
-				ft_printf("arg : %s\n", current->command[i++]);
+				ft_printf("arg : %s\n", current->command[i]);
+			i++;
 		}
 		if (j % 2 == 0)
 			ft_printf("input : %s \n", current->input);
@@ -48,7 +77,7 @@ int main(int argc, const char *argv[], char **envp)
 		return (free_queue(queue), EXIT_FAILURE);
 	ft_printf("%s", content);
 	free(content);
-	path = get_command_path(envp, queue->first->command);
+	path = get_command_path(envp, queue->first->command[0]);
 	if (path)
 	{
 		ft_printf("path find : %s\n", path);
@@ -63,3 +92,4 @@ int main(int argc, const char *argv[], char **envp)
 	//	ft_printf("[%s]\n", path_tab[i++]);
 	return (0);
 }
+*/

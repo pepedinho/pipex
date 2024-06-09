@@ -6,7 +6,7 @@
 /*   By: itahri <ithari@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 18:08:38 by itahri            #+#    #+#             */
-/*   Updated: 2024/06/07 20:03:29 by itahri           ###   ########.fr       */
+/*   Updated: 2024/06/07 20:02:17 by itahri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,26 +56,29 @@ t_queue	*args_manag(const char **argv, int argc)
 {
 	int		i;
 	t_queue	*queue;
-	int		argv_count;
-	const char	**command_plus_arg;
+	char	**arg_plus_command;
+
 
 	i = 1;
-	argv_count = 0;
 	queue = init_queue();
 	if (!queue)
 		exit(EXIT_FAILURE);
-	while (argv[argv_count])
-		argv_count++;
-	argv_count--;
-	if (argv_count % 2 != 0)
-		exit(EXIT_FAILURE);
-	while(i < argc)
+	arg_plus_command = ft_split(argv[i + 1], ' ');
+	if (!arg_plus_command)
+		return (NULL);
+	put_on_queue(queue, argv[i], (const char **)arg_plus_command);
+	i+=2;
+	while(i + 2 < argc)
 	{
-		command_plus_arg = stock_args(&argv[i + 1]);
-		put_on_queue(queue, argv[i], command_plus_arg);
-		while (i + 2 < argc && argv[i + 2][0] ==  '-')
-			i++;
-		i+=2;
+		arg_plus_command = ft_split(argv[i], ' ');
+		if (!arg_plus_command)
+			return(NULL);
+		put_on_queue(queue, NULL, (const char **)arg_plus_command);
+		i++;
 	}
+	arg_plus_command = ft_split(argv[i], ' ');
+	if (!arg_plus_command)
+		return (NULL);
+	put_on_queue(queue, argv[i + 1], (const char **)arg_plus_command);
 	return (queue);
 }

@@ -65,6 +65,7 @@ void  free_queue(t_queue *queue)
 {
 	t_element *current;
 	t_element *next;
+	int		  i;
 
 	if (!queue)
 		exit(EXIT_FAILURE);
@@ -72,7 +73,13 @@ void  free_queue(t_queue *queue)
 	while (current)
 	{
 		next = current->next;
-		free(current->command);
+		if (current->command)
+		{
+			i = 0;
+			while (current->command && current->command[i])
+				free(current->command[i++]);
+			free(current->command);
+		}
 		free(current);
 		current = next;
 	}
