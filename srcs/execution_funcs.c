@@ -39,7 +39,7 @@ int outfile_command(char **envp, t_element *elem, int *fd)
 	path = get_command_path(envp, elem->command[0]);
 	if (!path)
 		return (ft_printf("error\n"), -1);
-	outfile = open(elem->input, O_WRONLY | O_CREAT | O_TRUNC);
+	outfile = open(elem->input, O_CREAT | O_WRONLY, 0644);
 	if (outfile < 0)
 		return (ft_printf("error when open outfile : %s", elem->input), -1);
 	dup2(fd[0], STDIN_FILENO);
