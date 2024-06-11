@@ -22,7 +22,7 @@ typedef struct s_element
 {
 	char	  *input;
 	char	  **command;
-	int		  fd;	
+	int		  *fd;
 	struct s_element *next;
 }			  t_element;
 
@@ -56,5 +56,6 @@ char  *get_command_path(char **envp, char *command);
 //execution_funcs
 int	infile_command(char **envp, t_element *elem, int *fd);
 int outfile_command(char **envp, t_element *elem, int *fd);
+int	intermediate_command(char **envp, t_element *elem, int fd_in, int fd_out);
 
 #endif
