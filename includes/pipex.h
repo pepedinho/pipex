@@ -12,6 +12,8 @@
 
 #ifndef PIPEX_H
 # define PIPEX_H
+# define READ 0
+# define WRITE 1
 # include <unistd.h>
 # include <stdio.h>
 # include <fcntl.h>
@@ -23,7 +25,8 @@ typedef struct s_element
 	char	  *input;
 	char	  **command;
 	int		  *fd;
-	struct s_element *next;
+	struct s_element  *first;
+	struct s_element  *next;
 }			  t_element;
 
 typedef struct s_queue
@@ -56,6 +59,7 @@ char  *get_command_path(char **envp, char *command);
 //execution_funcs
 int	infile_command(char **envp, t_element *elem, int *fd);
 int outfile_command(char **envp, t_element *elem, int *fd);
-int	intermediate_command(char **envp, t_element *elem, int fd_in, int fd_out);
+int	intermediate_command(char **envp, t_element *elem, int *bef_fd, int *cur_fd);
+void  close_all(t_element *elem);
 
 #endif

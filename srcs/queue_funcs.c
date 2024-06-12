@@ -36,6 +36,7 @@ void  put_on_queue(t_queue *queue, const char *input, const char **command)
 	new->command = (char **)command;
 	new->fd = NULL;
 	new->next = NULL;
+	new->first = queue->first;
 	if (queue->first)
 	{
 		current = queue->first;

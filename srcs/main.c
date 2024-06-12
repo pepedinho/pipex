@@ -12,90 +12,87 @@
 
 #include "../includes/pipex.h"
 
+void  pipe_assignation(t_queue *queue)
+{
+	t_element *current;
+
+	current = queue->first;
+	while (current)
+	{
+		current->fd = malloc(sizeof(int) * 2);
+		if (!current->fd)
+			return ;
+		if (pipe(current->fd) == -1)
+			return ;
+		current = current->next;
+		
+	}
+}
+
 int main(int argc, const char *argv[], char **envp)
 {
 	t_queue	  *queue;
 	t_element *current;
-	pid_t	  pid;
 	t_element *before;
+	pid_t	  pid;
 	int		  i;
-	int		  last_pid;
 
 	queue = args_manag(argv, argc);
 	if (!queue)
 		return (-1);
-	i = 0;
+	pipe_assignation(queue);
 	current = queue->first;
-	current->fd = malloc(sizeof(int) * 2);
-	if (!current->fd)
-		exit(EXIT_FAILURE);
-	pipe(current->fd);
-	before = current;
-	ft_printf("[0] fd[0] = %d | fd [1] = %d\n", current->fd[0], current->fd[1]);
-	pid = fork();
-	if (pid == 0)
-		infile_command(envp, current, current->fd);
-	current = current->next;
-	while (current && pid != 0)
+	while (current)
 	{
-		last_pid = pid;
-		pid = fork();
-		wait(NULL);
-		//ft_printf("\n[1]debug while \n\tpid : %d\n\ti : %d\n\t current command : %s\n\t current input : %s\n", pid, i + 1, current->command[0], current->input);
-		///ft_printf("[1.1]debug condition\n\t argc : %d\n\t current : %s\n", argc, current->next ? "true" : "false");
-		if (pid == 0)
-			break ;
-		ft_printf("pid :  %d current -> %s\n", pid, current->command[0]);
-		ft_printf("command : %s\n", current->command[0]);
-		before = current;
-		ft_printf("command : %s\n", current->command[0]);
+		ft_printf("fd in = %d | fd out = %d\n", current->fd[READ], current->fd[WRITE]);
 		current = current->next;
-		if (current)
-			ft_printf("command : %s\n", current->command[0]);
-		if (current)
-			ft_printf("pid :  %d | current -> %s\n", pid, current->command[0]);
-		i++;
 	}
-	if (pid == 0)
+	current = queue->first;
+	before = current;
+	i = 0;
+	while (current)
 	{
-		//ft_printf("[2]debug condition pid = %d i = %d command = %s\n", pid, i, current->command[0]);
-		if (argc >= 5)
+		pid = fork();
+		if (pid == 0 && current->input && i == 0)
+		{
+			//wait(NULL);
+			ft_printf("infile : fd in = %d | fd out = %d\n", current->fd[READ], current->fd[WRITE]);
+			infile_command(envp, current, current->fd);
+			exit(EXIT_FAILURE);
+		}
+		else if (pid == 0 && !current->input)
+		{
+			ft_printf("inter : fd in = %d | fd out = %d\n", before->fd[READ], current->fd[WRITE]);
+			intermediate_command(envp, current, before->fd, current->fd);
+			exit(EXIT_FAILURE);
+		}
+		else if (pid == 0 && current->input && i > 0)
 		{
 			wait(NULL);
-			current->fd = malloc(sizeof(int) * 2);
-			if (!current)
-				return (-1);
-			if (pipe(current->fd) == -1)
+			//char buff[100];
+			//read(before->fd[READ], buff, 100);
+			//ft_printf("debug outfile pipe : %s \n", buff);
+			ft_printf("outfile : fd in = %d\n", before->fd[READ]);
+			outfile_command(envp, current, before->fd);
+			exit(EXIT_FAILURE);
+		}
+		else if (pid > 0)
+		{
+			waitpid(pid, NULL, 0);
+			ft_printf("close pid : %d\n", pid);
+			close(current->fd[WRITE]);
+			ft_printf("closing : fd[%d]\n", current->fd[WRITE]);
+			if (i > 0)
 			{
-				wait(NULL);
-				ft_printf("ERROR PIPE\n");
-			}
-			ft_printf("[3]debug pipe command = %s |fd[0] = %d|fd[1] = %d | i = %d\n", current->command[0], current->fd[0], current->fd[1], i);
-		}
-		wait(NULL);
-		//ft_printf("[bef 4]pid = %d | current->input = %s | i = %d\n", pid, current->input ? "true" : "false", i);
-		if (!current->input)
-		{
-			wait(NULL);
-			ft_printf("debug current input :  %s | next input : %s\n", current->input, current->next->input);
-			ft_printf("[4]debuf no input command = %s\n", current->command[0]);
-			ft_printf("\t|before fd[0] = %d| current fd[1] = %d\n", before->fd[0], current->fd[1]);
-			(close(current->fd[1]), close(before->fd[0]));
-			intermediate_command(envp, current, before->fd[1], current->fd[0]);
-			exit (EXIT_FAILURE);
-		}
-		else
-		{
-			wait(NULL);
-			//ft_printf("[5]debug ELSE\n");
-			if (current->input)
-			{
-				wait(NULL);
-				ft_printf("[bef outfile] fd[0] = %d | fd[1] = %d\n", current->fd[0], current->fd[1]);
-				outfile_command(envp, current, current->fd);
-				exit(EXIT_FAILURE);
+				close(before->fd[WRITE]);
+				close(before->fd[READ]);
+				ft_printf("closing : fd[%d]\n", before->fd[READ]);
 			}
 		}
+		ft_printf("pid : %d \n", pid);
+		before = current;
+		current = current->next;
+		i++;
 	}
 	return (0);
 	/*
