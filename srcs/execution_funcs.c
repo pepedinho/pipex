@@ -6,15 +6,15 @@
 /*   By: itahri <itahri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/09 13:47:19 by itahri            #+#    #+#             */
-/*   Updated: 2024/06/13 18:21:47 by itahri           ###   ########.fr       */
+/*   Updated: 2024/06/13 19:54:50 by itahri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/pipex.h"
 
-void  close_all(t_element *elem)
+void	close_all(t_element *elem)
 {
-	t_element *current;
+	t_element	*current;
 
 	current = elem->first;
 	while (current)
@@ -30,8 +30,8 @@ void  close_all(t_element *elem)
 
 int	infile_command(char **envp, t_element *elem, int *fd)
 {
-	int	  infile;
-	
+	int	infile;
+
 	infile = open(elem->input, O_RDWR);
 	dup2(infile, STDIN_FILENO);
 	dup2(fd[WRITE], STDOUT_FILENO);
@@ -50,9 +50,9 @@ int	inter_command(char **envp, t_element *elem, int *bef_fd, int *cur_fd)
 	return (0);
 }
 
-int outfile_command(char **envp, t_element *elem, int *fd)
+int	outfile_command(char **envp, t_element *elem, int *fd)
 {
-	int	  outfile;
+	int	outfile;
 
 	outfile = open(elem->input, O_CREAT | O_WRONLY | O_TRUNC, 0644);
 	if (outfile < 0)

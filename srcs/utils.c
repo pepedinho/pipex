@@ -6,7 +6,7 @@
 /*   By: itahri <itahri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/13 18:35:54 by itahri            #+#    #+#             */
-/*   Updated: 2024/06/13 18:44:45 by itahri           ###   ########.fr       */
+/*   Updated: 2024/06/13 19:54:55 by itahri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,4 +38,20 @@ void	extend_loop(char *path, char *command, char *result)
 	while (command[indexx.j])
 		result[indexx.i++] = command[indexx.j++];
 	result[indexx.i] = '\0';
+}
+
+void	pipe_assignation(t_queue *queue)
+{
+	t_element	*current;
+
+	current = queue->first;
+	while (current)
+	{
+		current->fd = malloc(sizeof(int) * 2);
+		if (!current->fd)
+			return ;
+		if (pipe(current->fd) == -1)
+			return ;
+		current = current->next;
+	}
 }

@@ -6,7 +6,7 @@
 /*   By: itahri <itahri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 17:29:47 by itahri            #+#    #+#             */
-/*   Updated: 2024/06/13 18:56:31 by itahri           ###   ########.fr       */
+/*   Updated: 2024/06/13 19:53:16 by itahri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,5 +61,13 @@ void	close_all(t_element *elem);
 
 //utils
 void	extend_loop(char *path, char *command, char *result);
+void	pipe_assignation(t_queue *queue);
+
+//pipex
+void	infile(t_element *current, char **envp);
+void	inter(t_element *current, t_element *before, char **envp);
+void	outfile(t_element *current, t_element *before, char **envp);
+void	closing_cond(t_element *current, t_element *before, pid_t pid, int i);
+void	monitor(t_element *current, t_element *before, char **envp, int i);
 
 #endif

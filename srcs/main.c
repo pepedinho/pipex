@@ -6,27 +6,11 @@
 /*   By: itahri <itahri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 17:29:12 by itahri            #+#    #+#             */
-/*   Updated: 2024/06/13 19:16:54 by itahri           ###   ########.fr       */
+/*   Updated: 2024/06/13 19:50:57 by itahri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/pipex.h"
-
-void	pipe_assignation(t_queue *queue)
-{
-	t_element	*current;
-
-	current = queue->first;
-	while (current)
-	{
-		current->fd = malloc(sizeof(int) * 2);
-		if (!current->fd)
-			return ;
-		if (pipe(current->fd) == -1)
-			return ;
-		current = current->next;
-	}
-}
 
 int	main(int argc, const char *argv[], char **envp)
 {
@@ -41,48 +25,14 @@ int	main(int argc, const char *argv[], char **envp)
 		return (-1);
 	pipe_assignation(queue);
 	current = queue->first;
-	before = current;
 	i = 0;
 	while (current && pid > 0)
 	{
 		pid = fork();
-		if (pid == 0 && current->input && i == 0)
-		{
-			current->command_path = get_command_path(envp, current->command[0]);
-			if (!current->command_path)
-				return (ft_printf("path error 1\n"), -1);
-			infile_command(envp, current, current->fd);
-			exit(EXIT_FAILURE);
-		}
-		else if (pid == 0 && !current->input)
-		{
-			current->command_path = get_command_path(envp, current->command[0]);
-			if (!current->command_path)
-				return (ft_printf("path error 2\n"), -1);
-			inter_command(envp, current, before->fd, current->fd);
-			exit(EXIT_FAILURE);
-		}
-		else if (pid == 0 && current->input && i > 0)
-		{
-			(close(current->fd[WRITE]), close(current->fd[READ]));
-			current->command_path = get_command_path(envp, current->command[0]);
-			if (!current->command_path)
-				return (ft_printf("path error 3\n"), -1);
-			outfile_command(envp, current, before->fd);
-			exit(EXIT_FAILURE);
-		}
+		if (pid == 0)
+			monitor(current, before, envp, i);
 		else if (pid > 0)
-		{
-			waitpid(pid, NULL, 0);
-			close(current->fd[WRITE]);
-			if (i > 0 && current->input)
-			{
-				close(before->fd[READ]);
-				close(current->fd[READ]);
-			}
-			else if (i > 0)
-				close(before->fd[READ]);
-		}
+			closing_cond(current, before, pid, i);
 		before = current;
 		current = current->next;
 		i++;
