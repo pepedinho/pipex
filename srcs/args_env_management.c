@@ -30,28 +30,6 @@ char  **get_env_path(char **envp)
 	return (path_tab);
 }
 
-const char **stock_args(const char **argv)
-{
-	int	i;
-	int	j;
-	const char **command_and_arg;
-
-	i = 1;
-	while (argv[i] && argv[i][0] == '-')
-		i++;
-	command_and_arg = malloc(sizeof(char *) * (i + 1));
-	if (!command_and_arg)
-		return (NULL);
-	j = 0;
-	while (j < i)
-	{
-		command_and_arg[j] = argv[j];
-		j++;
-	}
-	command_and_arg[j] = NULL;
-	return (command_and_arg);
-}
-
 t_queue	*args_manag(const char **argv, int argc)
 {
 	int		i;
