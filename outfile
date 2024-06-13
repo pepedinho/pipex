@@ -1,1 +1,65 @@
-2
+/*   main.c                                             :+:      :+:    :+:   */$
+/*   By: itahri <itahri@student.42.fr>              +#+  +:+       +#+        */$
+/*   Created: 2024/06/07 17:29:12 by itahri            #+#    #+#             */$
+/*   Updated: 2024/06/13 18:21:33 by itahri           ###   ########.fr       */$
+#include "../includes/pipex.h"$
+void  pipe_assignation(t_queue *queue)$
+	current = queue->first;$
+	while (current)$
+		current->fd = malloc(sizeof(int) * 2);$
+		if (!current->fd)$
+		if (pipe(current->fd) == -1)$
+int main(int argc, const char *argv[], char **envp)$
+	pid_t	  pid;$
+	int		  i;$
+	if (!queue)$
+	pipe_assignation(queue);$
+	current = queue->first;$
+	i = 0;$
+	while (current && pid > 0)$
+		pid = fork();$
+		if (pid == 0 && current->input && i == 0)$
+			if(!current->command_path)$
+				return(ft_printf("path error 1\n"), -1);$
+			infile_command(envp, current, current->fd);$
+			exit(EXIT_FAILURE);$
+		else if (pid == 0 && !current->input)$
+			if(!current->command_path)$
+				return(ft_printf("path error 2\n"), -1);$
+			inter_command(envp, current, before->fd, current->fd);$
+			exit(EXIT_FAILURE);$
+		else if (pid == 0 && current->input && i > 0)$
+			if(!current->command_path)$
+				return(ft_printf("path error 3\n"), -1);$
+			outfile_command(envp, current, before->fd);$
+			exit(EXIT_FAILURE);$
+		else if (pid > 0)$
+			waitpid(pid, NULL, 0);$
+			if (i > 0 && current->input)$
+			else if (i > 0)$
+		i++;$
+int main(int argc, const char *argv[], char **envp)$
+	int		  j;$
+	int		  i;$
+	current = queue->first;$
+	while (current)$
+		i = 0;$
+		while (current->command[i])$
+			if (i == 0)$
+				ft_printf("command : %s\n", current->command[i]);$
+				ft_printf("arg : %s\n", current->command[i]);$
+			i++;$
+		if (j % 2 == 0)$
+			ft_printf("input : %s \n", current->input);$
+			ft_printf("output : %s \n", current->input);$
+		ft_printf("-------------------------------\n");$
+	content = infile_content(queue->first->input);$
+	if (!content)$
+	ft_printf("%s", content);$
+	path = get_command_path(envp, queue->first->command[0]);$
+	if (path)$
+		ft_printf("path find : %s\n", path);$
+		ft_printf("aucun path find");$
+	//i = 0;$
+	//while (path_tab[i])$
+	//	ft_printf("[%s]\n", path_tab[i++]);$

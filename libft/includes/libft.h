@@ -6,7 +6,7 @@
 /*   By: itahri <itahri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/23 22:39:08 by itahri            #+#    #+#             */
-/*   Updated: 2024/05/30 13:26:24 by itahri           ###   ########.fr       */
+/*   Updated: 2024/06/13 18:22:37 by itahri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,6 @@ void	ft_lstiter(t_list *lst, void (*f)(void *));
 t_list	*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *));
 
 //cursus added functions
-int	dec_len(unsigned int nbr);
+int		dec_len(unsigned int nbr);
 
 #endif

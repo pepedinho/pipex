@@ -3,18 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: itahri <ithari@student.42.fr>              +#+  +:+       +#+        */
+/*   By: itahri <itahri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 17:29:12 by itahri            #+#    #+#             */
-/*   Updated: 2024/06/07 22:43:01 by itahri           ###   ########.fr       */
+/*   Updated: 2024/06/13 19:16:54 by itahri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/pipex.h"
 
-void  pipe_assignation(t_queue *queue)
+void	pipe_assignation(t_queue *queue)
 {
-	t_element *current;
+	t_element	*current;
 
 	current = queue->first;
 	while (current)
@@ -25,17 +25,16 @@ void  pipe_assignation(t_queue *queue)
 		if (pipe(current->fd) == -1)
 			return ;
 		current = current->next;
-		
 	}
 }
 
-int main(int argc, const char *argv[], char **envp)
+int	main(int argc, const char *argv[], char **envp)
 {
-	t_queue	  *queue;
-	t_element *current;
-	t_element *before;
-	pid_t	  pid;
-	int		  i;
+	t_element	*current;
+	t_element	*before;
+	t_queue		*queue;
+	pid_t		pid;
+	int			i;
 
 	queue = args_manag(argv, argc);
 	if (!queue)
@@ -50,25 +49,25 @@ int main(int argc, const char *argv[], char **envp)
 		if (pid == 0 && current->input && i == 0)
 		{
 			current->command_path = get_command_path(envp, current->command[0]);
-			if(!current->command_path)
-				return(ft_printf("path error 1\n"), -1);
+			if (!current->command_path)
+				return (ft_printf("path error 1\n"), -1);
 			infile_command(envp, current, current->fd);
 			exit(EXIT_FAILURE);
 		}
 		else if (pid == 0 && !current->input)
 		{
 			current->command_path = get_command_path(envp, current->command[0]);
-			if(!current->command_path)
-				return(ft_printf("path error 2\n"), -1);
-			intermediate_command(envp, current, before->fd, current->fd);
+			if (!current->command_path)
+				return (ft_printf("path error 2\n"), -1);
+			inter_command(envp, current, before->fd, current->fd);
 			exit(EXIT_FAILURE);
 		}
 		else if (pid == 0 && current->input && i > 0)
 		{
 			(close(current->fd[WRITE]), close(current->fd[READ]));
 			current->command_path = get_command_path(envp, current->command[0]);
-			if(!current->command_path)
-				return(ft_printf("path error 3\n"), -1);
+			if (!current->command_path)
+				return (ft_printf("path error 3\n"), -1);
 			outfile_command(envp, current, before->fd);
 			exit(EXIT_FAILURE);
 		}

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   queue_funcs.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: itahri <ithari@student.42.fr>              +#+  +:+       +#+        */
+/*   By: itahri <itahri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 18:29:49 by itahri            #+#    #+#             */
-/*   Updated: 2024/06/07 20:30:07 by itahri           ###   ########.fr       */
+/*   Updated: 2024/06/13 19:02:00 by itahri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,11 +23,10 @@ t_queue	*init_queue(void)
 	return (queue);
 }
 
-void  put_on_queue(t_queue *queue, const char *input, const char **command)
+void	put_on_queue(t_queue *queue, const char *input, const char **command)
 {
-	t_element *new;
-	t_element *current;
-
+	t_element	*new;
+	t_element	*current;
 
 	new = malloc(sizeof(*new));
 	if (!new)
@@ -51,13 +50,12 @@ void  put_on_queue(t_queue *queue, const char *input, const char **command)
 		queue->first = new;
 }
 
-void  get_out_queue(t_queue *queue)
+void	get_out_queue(t_queue *queue)
 {
-	t_element *current;
+	t_element	*current;
 
 	if (!queue)
 		return ;
-
 	if (queue->first)
 	{
 		current = queue->first;
@@ -66,11 +64,11 @@ void  get_out_queue(t_queue *queue)
 	}
 }
 
-void  free_queue(t_queue *queue)
+void	free_queue(t_queue *queue)
 {
-	t_element *current;
-	t_element *next;
-	int		  i;
+	t_element	*current;
+	t_element	*next;
+	int			i;
 
 	if (!queue)
 		exit(EXIT_FAILURE);

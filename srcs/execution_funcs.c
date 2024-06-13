@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution_funcs.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: itahri <ithari@student.42.fr>              +#+  +:+       +#+        */
+/*   By: itahri <itahri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/09 13:47:19 by itahri            #+#    #+#             */
-/*   Updated: 2024/06/09 16:02:07 by itahri           ###   ########.fr       */
+/*   Updated: 2024/06/13 18:21:47 by itahri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ int	infile_command(char **envp, t_element *elem, int *fd)
 	return (0);
 }
 
-int	intermediate_command(char **envp, t_element *elem, int *bef_fd, int *cur_fd)
+int	inter_command(char **envp, t_element *elem, int *bef_fd, int *cur_fd)
 {
 	dup2(bef_fd[READ], STDIN_FILENO);
 	dup2(cur_fd[WRITE], STDOUT_FILENO);

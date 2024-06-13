@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_printf.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: itahri <itahri@contact.42.fr>              +#+  +:+       +#+        */
+/*   By: itahri <itahri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 15:11:59 by itahri            #+#    #+#             */
-/*   Updated: 2024/06/07 17:37:52 by itahri           ###   ########.fr       */
+/*   Updated: 2024/06/13 18:23:02 by itahri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,4 +39,3 @@ int	ft_printf(const char *format, ...)
 	va_end(args);
 	return (i + count);
 }
-

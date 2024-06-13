@@ -3,18 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   exec_management.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: itahri <ithari@student.42.fr>              +#+  +:+       +#+        */
+/*   By: itahri <itahri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 21:32:01 by itahri            #+#    #+#             */
-/*   Updated: 2024/06/07 23:19:15 by itahri           ###   ########.fr       */
+/*   Updated: 2024/06/13 18:56:13 by itahri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/pipex.h"
 
-void  free_tab(char **tab, int cas)
+void	free_tab(char **tab, int cas)
 {
 	int	i;
+
 	if (cas == 2)
 	{
 		if (tab)
@@ -27,11 +28,11 @@ void  free_tab(char **tab, int cas)
 	free(tab);
 }
 
-char  *cut_n(const char *command, char sep)
+char	*cut_n(const char *command, char sep)
 {
-	int	  i;
-	int	  j;
-	char  *result;
+	int		i;
+	int		j;
+	char	*result;
 
 	if (!command)
 		return (NULL);
@@ -40,7 +41,7 @@ char  *cut_n(const char *command, char sep)
 		i++;
 	result = malloc(sizeof(char) * (i + 1));
 	if (!result)
-		return(NULL);
+		return (NULL);
 	j = 0;
 	while (j < i)
 	{
@@ -51,9 +52,8 @@ char  *cut_n(const char *command, char sep)
 	return (result);
 }
 
-static char  *extend(char *path, char *command)
+static char	*extend(char *path, char *command)
 {
-	t_index	indexx;
 	int		total_len;
 	char	*result;
 
@@ -61,38 +61,15 @@ static char  *extend(char *path, char *command)
 	result = ft_calloc(total_len + 2, sizeof(char));
 	if (!result)
 		return (NULL);
-	indexx.i = 0;
-	if (ft_strstr(path, "PATH"))
-	{
-		while (path[indexx.i + 5])
-		{
-			result[indexx.i] = path[indexx.i + 5];
-			indexx.i++;
-		}
-	}
-	else
-	{
-		while (path[indexx.i])
-		{
-			result[indexx.i] = path[indexx.i];
-			indexx.i++;
-		}	
-	}
-	result[indexx.i++] = '/';
-	indexx.j = 0;
-	while (command[indexx.j])
-	{
-		result[indexx.i++] = command[indexx.j];
-		indexx.j++;
-	}
-	return (result[indexx.i] = '\0', result);
+	extend_loop(path, command, result);
+	return (result);
 }
 
 static char	**path_formater(char **path_tab, char *command)
 {
-	int	  i;
-	char  **path_tab_formated;
-	char  *command_name;
+	int		i;
+	char	*command_name;
+	char	**path_tab_formated;
 
 	i = 0;
 	while (path_tab[i])
@@ -117,13 +94,12 @@ static char	**path_formater(char **path_tab, char *command)
 	return (free(command_name), path_tab_formated);
 }
 
-
-char  *get_command_path(char **envp, char *command)
+char	*get_command_path(char **envp, char *command)
 {
-	char  **path_tab;
-	char  **path_tab_formated;
-	char  *result;
-	int	  i;
+	char	**path_tab;
+	char	**path_tab_formated;
+	char	*result;
+	int		i;
 
 	i = 0;
 	path_tab = get_env_path(envp);
@@ -139,7 +115,8 @@ char  *get_command_path(char **envp, char *command)
 			result = ft_strdup(path_tab_formated[i]);
 			if (!result)
 				return (free_tab(path_tab_formated, 1), NULL);
-			return (free_tab(path_tab_formated, 1), free_tab(path_tab, 1), result);
+			free_tab(path_tab_formated, 1);
+			return (free_tab(path_tab, 1), result);
 		}
 		i++;
 	}
