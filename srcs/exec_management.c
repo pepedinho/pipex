@@ -140,6 +140,7 @@ char  *get_command_path(char **envp, char *command)
 			result = ft_strdup(path_tab_formated[i]);
 			if (!result)
 				return (free_tab(path_tab_formated, 1), NULL);
+			ft_printf("%s\n", result);
 			return (free_tab(path_tab_formated, 1), free_tab(path_tab, 1), result);
 		}
 		i++;

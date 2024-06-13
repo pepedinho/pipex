@@ -25,6 +25,7 @@ typedef struct s_element
 	char	  *input;
 	char	  **command;
 	int		  *fd;
+	char	  *command_path;
 	struct s_element  *first;
 	struct s_element  *next;
 }			  t_element;

@@ -20,7 +20,7 @@ char  **get_env_path(char **envp)
 	i = 0;
 	while (envp[i])
 	{
-		if(ft_strstr(envp[i], "PATH"))
+		if(ft_strstr(envp[i], "PATH") && envp[i][0] == 'P' && envp[i][3] == 'H')
 			break ;
 		i++;
 	}

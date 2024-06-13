@@ -50,29 +50,38 @@ int main(int argc, const char *argv[], char **envp)
 	current = queue->first;
 	before = current;
 	i = 0;
-	while (current)
+	while (current && pid > 0)
 	{
 		pid = fork();
 		if (pid == 0 && current->input && i == 0)
 		{
 			//wait(NULL);
 			ft_printf("infile : fd in = %d | fd out = %d\n", current->fd[READ], current->fd[WRITE]);
+			current->command_path = get_command_path(envp, current->command[0]);
+			if(!current->command_path)
+				return(ft_printf("path error 1\n"), -1);
 			infile_command(envp, current, current->fd);
 			exit(EXIT_FAILURE);
 		}
 		else if (pid == 0 && !current->input)
 		{
 			ft_printf("inter : fd in = %d | fd out = %d\n", before->fd[READ], current->fd[WRITE]);
+			current->command_path = get_command_path(envp, current->command[0]);
+			if(!current->command_path)
+				return(ft_printf("path error 2\n"), -1);
 			intermediate_command(envp, current, before->fd, current->fd);
 			exit(EXIT_FAILURE);
 		}
 		else if (pid == 0 && current->input && i > 0)
 		{
-			wait(NULL);
 			//char buff[100];
 			//read(before->fd[READ], buff, 100);
 			//ft_printf("debug outfile pipe : %s \n", buff);
 			ft_printf("outfile : fd in = %d\n", before->fd[READ]);
+			(close(current->fd[WRITE]), close(current->fd[READ]));
+			current->command_path = get_command_path(envp, current->command[0]);
+			if(!current->command_path)
+				return(ft_printf("path error 3\n"), -1);
 			outfile_command(envp, current, before->fd);
 			exit(EXIT_FAILURE);
 		}
@@ -82,11 +91,15 @@ int main(int argc, const char *argv[], char **envp)
 			ft_printf("close pid : %d\n", pid);
 			close(current->fd[WRITE]);
 			ft_printf("closing : fd[%d]\n", current->fd[WRITE]);
-			if (i > 0)
+			if (i > 0 && current->input)
 			{
-				close(before->fd[WRITE]);
 				close(before->fd[READ]);
-				ft_printf("closing : fd[%d]\n", before->fd[READ]);
+				close(current->fd[READ]);
+			}
+			else if (i > 0)
+			{
+				close(before->fd[READ]);
+				ft_printf("closing cond : fd[%d]\n", before->fd[READ]);
 			}
 		}
 		ft_printf("pid : %d \n", pid);
@@ -94,6 +107,7 @@ int main(int argc, const char *argv[], char **envp)
 		current = current->next;
 		i++;
 	}
+	close_all(before);
 	return (0);
 	/*
 	current = queue->first;
