@@ -49,9 +49,19 @@ void	pipe_assignation(t_queue *queue)
 	{
 		current->fd = malloc(sizeof(int) * 2);
 		if (!current->fd)
-			return ;
+		{
+			current = current->first;
+			while (current && current->fd)
+				free(current->fd);
+			exit(EXIT_FAILURE);
+		}
 		if (pipe(current->fd) == -1)
-			return ;
+		{
+			current = current->first;
+			while (current && current->fd)
+				free(current->fd);
+			exit(EXIT_FAILURE);
+		}
 		current = current->next;
 	}
 }
