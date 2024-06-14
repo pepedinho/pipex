@@ -37,7 +37,7 @@ char	*cut_n(const char *command, char sep)
 	if (!command)
 		return (NULL);
 	i = 0;
-	while (command[i] != sep)
+	while (command[i] && command[i] != sep)
 		i++;
 	result = malloc(sizeof(char) * (i + 1));
 	if (!result)

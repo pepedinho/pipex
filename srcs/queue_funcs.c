@@ -81,6 +81,8 @@ void	free_queue(t_queue *queue)
 			i = 0;
 			while (current->command && current->command[i])
 				free(current->command[i++]);
+			if (current->fd)
+				free(current->fd);
 			free(current->command);
 		}
 		free(current);

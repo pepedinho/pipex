@@ -26,7 +26,7 @@ int	main(int argc, const char *argv[], char **envp)
 	pipe_assignation(queue);
 	current = queue->first;
 	i = 0;
-	while (current && pid > 0)
+	while (current)
 	{
 		pid = fork();
 		if (pid == 0)
@@ -37,7 +37,7 @@ int	main(int argc, const char *argv[], char **envp)
 		current = current->next;
 		i++;
 	}
-	close_all(before);
+	free_queue(queue);
 	return (0);
 }
 
