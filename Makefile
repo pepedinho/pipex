@@ -24,16 +24,16 @@ CFLAGS = -Wall -Wextra -Werror -g3
 
 NAME = pipex
 
+all : $(LIBFT) $(NAME)
+
 %.o : %.c
 	$(CC) $(CFLAGS) -I $(INCLUDES) -c  $< -o $@ 
 
 $(LIBFT):
 	make -C ./libft
 
-$(NAME): $(LIBFT) $(OBJS)
+$(NAME): $(OBJS)
 	$(CC) $(CFLAGS) -I $(INCLUDES)  $(OBJS) -o $(NAME) -L$(LIB_DIR) -lft 
-
-all : $(NAME)
 
 clean:
 	rm -f $(OBJS)
