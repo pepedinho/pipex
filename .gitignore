@@ -1,0 +1,33 @@
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    .gitignore                                         :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: inazaria <inazaria@student.42.fr>          +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2024/06/14 04:23:18 by inazaria          #+#    #+#              #
+#    Updated: 2024/06/14 04:33:08 by inazaria         ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
+
+
+# Voila unpeu a quoi ressemble a chaque fois mes .gitignore ;)
+
+# Project files
+***.out$
+***.o
+
+# Valgrind Files
+**vgcore.*
+
+# Dev env files
+**.vscode/
+**.cache/
+**compile_commands.json
+**.DS_Store
+
+
+# P.S. **abc.out veut dire que recursivement on ignore tous les fichiers et dossiers 
+# qui s'appelent abc.out (plus precisement, qui contiennent abc.out dans leur nom)
+# sinon on aurait ecris **abc.out$
+

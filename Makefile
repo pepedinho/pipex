@@ -6,7 +6,7 @@
 #    By: itahri <itahri@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/07 17:46:56 by itahri            #+#    #+#              #
-#    Updated: 2024/06/13 19:49:50 by itahri           ###   ########.fr        #
+#    Updated: 2024/06/14 04:30:16 by inazaria         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,11 +27,12 @@ NAME = pipex
 %.o : %.c
 	$(CC) $(CFLAGS) -I $(INCLUDES) -c  $< -o $@ 
 
+$(NAME): $(LIBFT) $(OBJS)
+	$(CC) $(CFLAGS) -I $(INCLUDES)  $(OBJS) -o $(NAME) -L$(LIB_DIR) -lft 
+
 $(LIBFT):
 	make -C ./libft
 
-$(NAME): $(LIBFT) $(OBJS)
-	$(CC) $(CFLAGS) -I $(INCLUDES)  $(OBJS) -o $(NAME) -L$(LIB_DIR) -lft 
 
 all : $(NAME)
 
