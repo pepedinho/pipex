@@ -6,7 +6,7 @@
 /*   By: itahri <itahri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 17:29:12 by itahri            #+#    #+#             */
-/*   Updated: 2024/06/13 19:50:57 by itahri           ###   ########.fr       */
+/*   Updated: 2024/06/14 04:22:32 by inazaria         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int	main(int argc, const char *argv[], char **envp)
 	queue = args_manag(argv, argc);
 	if (!queue)
 		return (-1);
-	pipe_assignation(queue);
+	pipe_assignement(queue);
 	current = queue->first;
 	i = 0;
 	while (current && pid > 0)
