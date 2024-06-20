@@ -42,14 +42,14 @@ int	main(int argc, const char *argv[], char **envp)
 }
 
 /*
-int main(int argc, const char *argv[], char **envp)
+int	main(int argc, const char *argv[], char **envp)
 {
-	int		  j;
-	int		  i;
-	char	  *path;
-	t_queue	  *queue;
-	t_element *current;
-	char	  *content;
+	int			j;
+	int			i;
+	char		*path;
+	t_queue		*queue;
+	t_element	*current;
+	char		*content;
 
 	queue = args_manag(argv, argc);
 	current = queue->first;
@@ -67,7 +67,7 @@ int main(int argc, const char *argv[], char **envp)
 		}
 		if (j % 2 == 0)
 			ft_printf("input : %s \n", current->input);
-		else 
+		else
 			ft_printf("output : %s \n", current->input);
 		ft_printf("-------------------------------\n");
 		current = current->next;
@@ -87,7 +87,6 @@ int main(int argc, const char *argv[], char **envp)
 	else
 		ft_printf("aucun path find");
 	free_queue(queue);
-
 	//i = 0;
 	//while (path_tab[i])
 	//	ft_printf("[%s]\n", path_tab[i++]);

@@ -90,4 +90,3 @@ void	free_queue(t_queue *queue)
 	}
 	free(queue);
 }
-

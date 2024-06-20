@@ -31,7 +31,7 @@ void	extend_loop(char *path, char *command, char *result)
 		{
 			result[indexx.i] = path[indexx.i];
 			indexx.i++;
-		}	
+		}
 	}
 	result[indexx.i++] = '/';
 	indexx.j = 0;
