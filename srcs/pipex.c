@@ -40,9 +40,8 @@ void	outfile(t_element *current, t_element *before, char **envp)
 	exit(EXIT_FAILURE);
 }
 
-void	closing_cond(t_element *current, t_element *before, pid_t pid, int i)
+void	closing_cond(t_element *current, t_element *before, int i)
 {
-	waitpid(pid, NULL, 0);
 	close(current->fd[WRITE]);
 	if (i > 0 && current->input)
 	{

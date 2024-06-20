@@ -67,7 +67,7 @@ void	pipe_assignation(t_queue *queue);
 void	infile(t_element *current, char **envp);
 void	inter(t_element *current, t_element *before, char **envp);
 void	outfile(t_element *current, t_element *before, char **envp);
-void	closing_cond(t_element *current, t_element *before, pid_t pid, int i);
+void	closing_cond(t_element *current, t_element *before, int i);
 void	monitor(t_element *current, t_element *before, char **envp, int i);
 
 #endif

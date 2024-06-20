@@ -12,6 +12,12 @@
 
 #include "../includes/pipex.h"
 
+void	wait_all(int i)
+{
+	while (i-- >= 0)
+		wait(NULL);
+}
+
 int	main(int argc, const char *argv[], char **envp)
 {
 	t_element	*current;
@@ -20,6 +26,8 @@ int	main(int argc, const char *argv[], char **envp)
 	pid_t		pid;
 	int			i;
 
+	if (argc < 5)
+		return (-1);
 	queue = args_manag(argv, argc);
 	if (!queue)
 		return (-1);
@@ -30,15 +38,13 @@ int	main(int argc, const char *argv[], char **envp)
 	{
 		pid = fork();
 		if (pid == 0)
-			monitor(current, before, envp, i);
+			monitor(current, before, envp, i++);
 		else if (pid > 0)
-			closing_cond(current, before, pid, i);
+			closing_cond(current, before, i++);
 		before = current;
 		current = current->next;
-		i++;
 	}
-	free_queue(queue);
-	return (0);
+	return (free_queue(queue), wait_all(i), 0);
 }
 
 /*
