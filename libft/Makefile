@@ -59,7 +59,7 @@ SRCS = ft_atoi.c \
 
 SRCS := $(addprefix srcs/,$(SRCS))
 
-CC = gcc
+CC = cc
 CFLAGS = -Wall -Wextra -Werror -g3
 OBJS = $(SRCS:.c=.o)
 all: $(NAME)
